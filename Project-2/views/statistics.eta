@@ -1,0 +1,46 @@
+<% layout("./layouts/layout.eta") %>
+  <nav class="border fixed split-nav">
+  <div class="nav-brand">
+    <h3>Gald to Have You Here!</h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <label for="collapsible1">
+      <div class="bar1"></div>
+      <div class="bar2"></div>
+      <div class="bar3"></div>
+      <div class="bar4"></div>
+      <div class="bar5"></div>
+      <div class="bar6"></div>
+    </label>
+    <div class="collapsible-body">
+      <ul class="inline">
+        <li><a href="/">Logout</a></li>
+        <li><a href="/questions">Questions</a></li>
+        <li><a href="/quiz">Quiz</a></li>
+        <li><a href="/statistics">Statistic</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<h1>Statistics</h1>
+
+<p>The number of answers the user has given: <%= it.allAnswerNumber %></p>
+
+<p>The total number of correct answer: <%= it.correctAnswer %></p>
+
+<p>The number of answers given to the questions created by yuorself: <%= it.postedAnswerNumber %></p>
+
+<h2>Top Five Users</h2>
+<% if (it.user && it.user.length > 0) { %>
+<table>
+<% it.user.forEach(item => { %>
+  <tr>
+  <td><%= item.email %></td>
+  <td><%= item.count %></td>
+  </tr>
+<% }); %>
+</table>
+<% } else { %>
+<p>The information of users is not available</p>
+<% } %>

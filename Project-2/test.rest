@@ -1,0 +1,16 @@
+POST http://localhost:7777/questions/7/options
+Content-Type: application/x-www-form-urlencode
+
+option_text=bcd
+
+###
+GET http://localhost:7777/api/questions/random
+
+###
+POST http://localhost:7777/api/questions/answer
+Content-Type: application/json
+
+{
+    "questionId": 8,
+    "optionId": 12
+}

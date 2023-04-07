@@ -1,0 +1,64 @@
+<% layout("./layouts/layout.eta") %>
+  <nav class="border fixed split-nav">
+  <div class="nav-brand">
+    <h3>Gald to Have You Here!</h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <label for="collapsible1">
+      <div class="bar1"></div>
+      <div class="bar2"></div>
+      <div class="bar3"></div>
+      <div class="bar4"></div>
+      <div class="bar5"></div>
+      <div class="bar6"></div>
+    </label>
+    <div class="collapsible-body">
+      <ul class="inline">
+        <li><a href="/">Home</a></li>
+        <li><a href="/questions">Questions</a></li>
+        <li><a href="/quiz">Quiz</a></li>
+        <li><a href="/statistics">Statistic</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<h1>Question No.<%= it.id %></h1>
+
+<h2>Title: <%= it.title %></h2>
+<p> <%= it.question_text %> </p>
+
+<h2>Add an Answer Option</h2>
+
+<% if (it.validationErrors) { %>
+<ul>
+    <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+        <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+            <li><%= err %></li>
+        <% }); %>
+    <% }); %>
+</ul>
+<% } %>
+
+<form method="POST" action="/questions/<%= it.id %>/options">
+Option Text:<br/>
+<textarea name="option_text"><%= it.optionText ? it.optionText : "" %></textarea><br/>
+Is Correct:
+<input type="checkbox" name="is_correct"/><br/>
+<input type="submit" value="Add"/>
+</form>
+
+<h2>Question Details</h2>
+<% if (it.details && it.details.length > 0) { %>
+<% it.details.forEach(item => { %>
+    <p><form action="/questions/<%= it.id %>/options/<%= item.id %>/delete" method="POST">
+    Content: <%= item.option_text %>; Correctness: <%= item.is_correct %>
+    <input type="submit" value="Delete Option" />
+    </form></p>
+<% }); %>
+<% } else { %>
+<p>No Question Details. Do you want to delete the question?</p>
+    <form method="POST" action="/questions/<%= it.id %>/delete">
+      <input type="submit" value="Delete Question"/>
+    </form>
+<% } %>

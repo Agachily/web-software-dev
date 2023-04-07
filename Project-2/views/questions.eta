@@ -1,0 +1,60 @@
+<% layout("./layouts/layout.eta") %>
+  <nav class="border fixed split-nav">
+  <div class="nav-brand">
+    <h3>Gald to Have You Here!</h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <label for="collapsible1">
+      <div class="bar1"></div>
+      <div class="bar2"></div>
+      <div class="bar3"></div>
+      <div class="bar4"></div>
+      <div class="bar5"></div>
+      <div class="bar6"></div>
+    </label>
+    <div class="collapsible-body">
+      <ul class="inline">
+        <li><a href="/">Logout</a></li>
+        <li><a href="/questions">Questions</a></li>
+        <li><a href="/quiz">Quiz</a></li>
+        <li><a href="/statistics">Statistic</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<h1>Multi-choice Playground</h1>
+
+<h2>Adding a Multi-choice Question</h2>
+
+<% if (it.validationErrors) { %>
+<ul>
+    <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+        <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+            <li><%= err %></li>
+        <% }); %>
+    <% }); %>
+</ul>
+<% } %>
+
+<form method="POST" action="/questions">
+Title:<br/>
+<input type="text" name="title" value="<%= it.title ? it.title : "" %>"/><br/>
+Text:<br/>
+<textarea name="question_text"><%= it.questionText ? it.questionText : "" %></textarea><br/>
+<input type="submit" value="Add"/>
+</form>
+
+<h2>All the Current Questions</h2>
+
+<% if (it.currentUserQuestions && it.currentUserQuestions.length > 0) { %>
+<ul>
+<% it.currentUserQuestions.forEach(item => { %>
+  <p><li>
+    <a href="/questions/<%= item.id %>"><%= item.title %></a>
+  </li></p>
+<% }); %>
+</ul>
+<% } else { %>
+<p>No Current Questions</p>
+<% } %>
